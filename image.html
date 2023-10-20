@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adivinhando o nunero pensado</title>
+    <style>
+        body {
+            background-color: #F0F5FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0%;
+            zoom: 200%
+        }
+
+        #container {
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        #text-container {
+            font-size: 24px;
+            margin-top: 48px;
+            margin-bottom: 24px;
+        }
+
+        #image-container {
+            margin-top: 48px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #image-container img {
+            max-width: 200px;
+            margin-bottom: 16px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #option-buttons {
+            margin-top: 24px;
+        }
+
+        #option-buttons button {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4C6EF5;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+        #button{
+            margin-top: 24px;
+        }
+        #button button {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4C6EF5;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Adivinhando o número pensado</h1>
+        <div id="text-container"></div>
+        <div id="image-container">
+            <img src="4.jpeg" id="image1" style="display: none;">
+            <img src="32.jpeg" id="image2" style="display: none;">
+            <img src="8.jpeg" id="image3" style="display: none;">
+            <img src="16.jpeg" id="image4" style="display: none;">
+            <img src="1.jpeg" id="image5" style="display: none;">
+            <img src="2.jpeg" id="image6" style="display: none;">
+        </div>
+        <div id="option-buttons">
+            <button onclick="selectImage(1)">Sim</button>
+            <button onclick="selectImage(0)">Não</button>
+        </div>
+        <div id="button"></div>
+    </div>
+    
+    <script>
+        var images = [
+            { number: 4, src: "4.jpeg" },
+            { number: 32, src: "32.jpeg" },
+            { number: 8, src: "8.jpeg" },
+            { number: 16, src: "16.jpeg" },
+            { number: 1, src: "1.jpeg" },
+            { number: 2, src: "2.jpeg" }
+        ];
+
+        var currentImageIndex = 0;
+        var selectedImages = [];
+
+       function showText(text) {
+    var container = document.getElementById('text-container');
+    container.innerHTML = text;
+}
+
+function showImage(index) {
+    var imageId = "image" + (index + 1);
+    var imageElement = document.getElementById(imageId);
+    imageElement.style.display = "block";
+}
+
+function hideImage(index) {
+    var imageId = "image" + (index + 1);
+    var imageElement = document.getElementById(imageId);
+    imageElement.style.display = "none";
+}
+
+function selectImage(option) {
+    var hidden = document.getElementById("option-buttons");
+    selectedImages.push(option);
+    hideImage(currentImageIndex);
+
+    if (currentImageIndex === images.length - 1) {
+        var guessedNumber = getGuessedNumber();
+        showText("O número que você pensou foi: " + guessedNumber);
+        hidden.style.display = "none";
+        showRestartButton();
+    } else {
+        currentImageIndex++;
+        showImage(currentImageIndex);
+        hidden.style.display = "block";
+    }
+}
+
+
+function getGuessedNumber() {
+    var guessedNumber = 0;
+    for (var i = 0; i < selectedImages.length; i++) {
+        if (selectedImages[i] === 1) {
+            guessedNumber += images[i].number;
+        }
+    }
+    return guessedNumber;
+}
+
+function showRestartButton() {
+    var restartButton = document.createElement("button");
+    restartButton.innerHTML = "Voltar";
+    restartButton.onclick = function () {
+        window.location.href = "index.html";
+    };
+    document.getElementById("button").appendChild(restartButton);
+}
+
+window.onload = function () {
+    showText("Seu número está nessa imagem:");
+    showImage(currentImageIndex);
+};
+</script>
+</body>
+</html>

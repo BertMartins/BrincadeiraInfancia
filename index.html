@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adivinhando o Resultado</title>
+    <style>
+        body {
+            background-color: #F0F5FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15%;
+            zoom: 200%
+        }
+
+        #container {
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        #text-container {
+            font-size: 24px;
+            margin-top: 48px;
+            margin-bottom: 24px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4C6EF5;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3856C9;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Adivinhando o Resultado</h1>
+        <div id="text-container"></div>
+        <div id="continue-button">
+            <button onclick="nextPhrase()">Continuar</button>
+        </div>
+        <div id="restart-button">
+            <button onclick="restartGame()">Tentar Novamente</button>
+        </div>
+        <div id="result-button">
+            <br>
+            <button onclick="showImagePage()">Caso esteja achando fácil, posso descobrir o número que você pensou. Clique aqui!</button>
+        </div>
+    </div>
+    
+    <script>
+        var phrases = [
+            "Pense em um número inteiro de 1 a 60",
+            "Multiplique por 2",
+            "Some mais ",
+            "Divida por 2",
+            "Menos o número que você pensou"
+        ];
+
+        var currentPhraseIndex = 0;
+        var randomNumber = generateRandomNumber();
+
+        function generateRandomNumber() {
+            return Math.floor(Math.random() * 100) + 1;
+        }
+
+        function showText(text) {
+            var container = document.getElementById('text-container');
+            container.innerHTML = text;
+        }
+
+        function showContinueButton() {
+            document.getElementById('continue-button').style.display = 'block';
+        }
+
+        function hideContinueButton() {
+            document.getElementById('continue-button').style.display = 'none';
+        }
+
+        function showRestartButton() {
+            document.getElementById('restart-button').style.display = 'block';
+        }
+
+        function hideRestartButton() {
+            document.getElementById('restart-button').style.display = 'none';
+        }
+
+        function showResultButton() {
+            document.getElementById('result-button').style.display = 'block';
+        }
+
+        function hideResultButton() {
+            document.getElementById('result-button').style.display = 'none';
+        }
+
+        function nextPhrase() {
+            currentPhraseIndex++;
+            if (currentPhraseIndex < phrases.length) {
+                if (currentPhraseIndex === 2) {
+                    showText(phrases[currentPhraseIndex] + randomNumber);
+                } else {
+                    showText(phrases[currentPhraseIndex]);
+                }
+            } else {
+                var result = randomNumber / 2;
+                showText("Seu resultado é: " + result);
+                hideContinueButton();
+                showRestartButton();
+                showResultButton();
+            }
+        }
+
+        function restartGame() {
+            currentPhraseIndex = 0;
+            randomNumber = generateRandomNumber();
+            showText(phrases[0]);
+            showContinueButton();
+            hideRestartButton();
+            hideResultButton();
+        }
+
+        function showImagePage() {
+            window.location.href = "image.html";
+        }
+
+        window.onload = function() {
+            showText(phrases[0]);
+            showContinueButton();
+            hideRestartButton();
+            hideResultButton();
+        };
+    </script>
+</body>
+</html>
